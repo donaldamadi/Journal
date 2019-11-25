@@ -182,7 +182,7 @@ class Journal(User):
     def print_out(self):
         print(self.journals)
 
-welcome()a
+welcome()
 user_journal = Journal()
 time.sleep(2)
 user_journal.task_to_perform()
