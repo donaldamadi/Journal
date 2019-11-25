@@ -1,0 +1,188 @@
+from datetime import datetime
+import time
+
+def welcome():
+    print('Welcome to my program \n'
+          'This program performs the basic functions of recording inputted activities. ')
+    time.sleep(1)
+    print('Please fill in the necessary information to proceed ')
+
+class User:
+
+    def __init__(self):
+        self.first_name = input('What is your first name: ')
+        self.last_name = input('What is your last name: ')
+        self.birth_date = input('What is your date of birth, expected date yyyy-mm-dd: ')
+        self.marital_status = input('Marital status: 1 for married, 2 for single, 3 for divorced: ')
+        self.occupation = input('Occupation: ')
+        self.nationality = input('Nationality: ')
+        self.state_of_origin = input('State of origin: ')
+        self.email_address = input('Email address: ')
+
+
+    def full_name(self):
+        return self.first_name +  ' ', self.last_name
+
+    def get_age(self):
+        try:
+            age_check = datetime.strptime(self.birth_date, "%Y-%m-%d")
+        except Exception:
+            print('The date format is invalid')
+            res = input('Do you want to input another: y for yes and n for no: ')
+            if res == 'y':
+                self.birth_date = input('What is your date of birth, expected date yyyy-mm-dd: ')
+                self.get_age
+            return None
+        date_diff = datetime.now().year - age_check.year
+        return date_diff
+
+    def married_or_not(self):
+        if self.marital_status == '1':
+            return 'Married'
+        elif self.marital_status == '2':
+            return 'Single'
+        elif self.marital_status == '3':
+            return 'Divorced'
+        else:
+            return 'marital status not known'
+
+class Journal(User):
+    def __init__(self):
+        super().__init__()
+        self.i = 0
+        self.journals = list()
+        self.archive_journals = list()
+
+    def add(self):
+        print("Adding a new journal")
+        title = input('Enter a new title: ')
+        description = input('Description: ')
+        today_date = datetime.now()
+        text = input('What do you want to input in your journal? ')
+        journal_list = {
+            "id": self.i,
+            "date": today_date,
+            "Name": self.full_name(),
+            "age": self.get_age(),
+            "marital status": self.married_or_not(),
+            "Occupation": self.occupation,
+            "Nationality": self.nationality,
+            "state of origin": self.state_of_origin,
+            "Email address": self.email_address,
+            "title": title,
+            "author": self.full_name(),
+            "description": description,
+            "text": text
+        }
+        self.i = self.i + 1
+        self.journals.append(journal_list)
+        res = input('Journal has been added, do you want to add another? y or n: ')
+        if res == 'y':
+            self.add()
+        else:
+            self.task_to_perform()
+
+    def retrieve(self, id):
+        journal = None
+        for jour in self.journals:
+            if jour["id"] == id:
+                journal = jour
+        return journal
+
+    def delete(self, id):
+        new_journals = list()
+        new_archives = list()
+        for jour in self.journals:
+            if jour["id"] != id:
+                new_journals.append(jour)
+
+        for jour in self.archive_journals:
+            if jour["id"] != id:
+                new_archives.append(jour)
+
+        self.journals = new_journals
+        self.archive_journals = new_archives
+        return True
+
+    def archive(self, id):
+        new_journals = list()
+        for jour in self.journals:
+            if jour["id"] != id:
+                new_journals.append(jour)
+            else:
+                self.archive_journals.append(jour)
+        self.journals = new_journals
+
+    def task_to_perform(self):
+        res = input("What task will you like to perform? \n"
+                    "To add a journal, input 1\n"
+                    "To retrieve a journal, input 2\n"
+                    "To delete a journal, input 3\n"
+                    "To archive a journal, input 4\n"
+                    "To print out available journals, input 5\n"
+                    "To end this program, input 6\n"
+                    "Input a number: ")
+        if res == '1':
+            time.sleep(1)
+            print(self.add())
+        elif res == '2':
+            time.sleep(1)
+            self.other_retrieve(id)
+        elif res == '3':
+            time.sleep(1)
+            self.other_delete(id)
+        elif res == '4':
+            time.sleep(1)
+            self.other_archive()
+        elif res == '5':
+            print(user_journal.journals)
+            self.task_to_perform()
+        elif res == '6':
+            time.sleep(1)
+            print("Thank you for using my program")
+        else:
+            other_response = input("Input is invalid, Would you like to try again? 'y' for yes and other for no ")
+            if other_response == 'y':
+                self.task_to_perform()
+            else:
+                res = input("Do you want to fill another form? 'y' for yes and other for no: ")
+                time.sleep(1)
+                if res == 'y':
+                    time.sleep(1)
+                    self.__init__()
+                    self.task_to_perform()
+                else:
+                    print("Thank you for using my program")
+
+
+    def other_retrieve(self, id):
+        retrieve_number = int(input("What file do you want to retrieve? "))
+        time.sleep(1)
+        print(self.retrieve(retrieve_number))
+        time.sleep(1)
+        self.task_to_perform()
+
+
+    def other_delete(self, id):
+        delete_number = int(input("What file do you want to delete: "))
+        user_journal.delete(delete_number)
+        time.sleep(1)
+        print("File has been deleted")
+        time.sleep(1)
+        self.task_to_perform()
+
+    def other_archive(self):
+        archive_number = int(input('What file do you want to archive? '))
+        user_journal.archive(archive_number)
+        time.sleep(1)
+        print("File has been archived")
+        time.sleep(1)
+        self.task_to_perform()
+
+    def print_out(self):
+        print(self.journals)
+
+welcome()a
+user_journal = Journal()
+time.sleep(2)
+user_journal.task_to_perform()
