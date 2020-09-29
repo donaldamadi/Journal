@@ -1,2 +1,2 @@
 # Journal
-A journal app built with python
+A journal app written in python. It shows the use of the major concepts of OOP.
